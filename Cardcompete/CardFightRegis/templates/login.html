@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}
+    <title>Login</title>
+{% endblock %}
+
+{% block content %}
+    <h1 style="color: rgb(20, 176, 203);">Account Login</h1>
+     <h2>Login</h2>
+    <form method="POST">
+        {% csrf_token %}
+        <p>Username: <input type="text" name="username" required></p>
+        <p>Password: <input type="password" name="password" required></p>
+        <button type="submit">Login</button>
+        <a class="btn btn-link" href="{% url 'password_reset' %}">Forgot Password?</a>
+    </form>
+
+{% endblock %}

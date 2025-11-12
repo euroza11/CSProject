@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ card.name }}</h2>
+<img src="{{ card.image.url }}" alt="{{ card.name }}" style="max-width:200px;">
+<p><strong>Nation:</strong> {{ card.nation }}</p>
+<p><strong>Type:</strong> {{ card.card_type }}</p>
+<p><strong>Grade:</strong> {{ card.grade }}</p>
+<p><strong>Power:</strong> {{ card.power }}</p>
+
+{% if card.skill %}
+    <h3>Skill</h3>
+    <p>{{ card.skill|linebreaks }}</p>
+{% else %}
+    <p>No skill description available.</p>
+{% endif %}
+
+<a href="{% url 'cardpool' %}">Back to card list</a>
+{% endblock %}

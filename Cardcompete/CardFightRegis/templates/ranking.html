@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Player Ranking</h2>
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Order</th>
+            <th>Username</th>
+            <th>Telephone</th>
+            <th>Registrations</th>
+            <th>Competition Points</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for player in player_data %}
+        <tr>
+            <td>{{ player.order }}</td>
+            <td>{{ player.username }}</td>
+            <td>{{ player.tel }}</td>
+            <td>{{ player.registrations }}</td>
+            <td>{{ player.point }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

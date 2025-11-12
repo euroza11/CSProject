@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+{% block title %}
+<title>หน้าแรก</title>
+{% endblock %}
+
+{% block content %}
+<div>
+    <h1>ยินดีต้อนรับ เหล่า cardfighter</h1>
+</div>
+
+{% if user.is_authenticated %}
+    <h2>Welcome {{ user.username }} 👋</h2>
+{% else %}
+    <h2>Welcome, Guest</h2>
+    <!-- <p><a href="{% url 'login' %}">Login</a></p>
+    <p><a href="{% url 'register' %}">Register</a></p> -->
+{% endif %}
+
+{% endblock %}

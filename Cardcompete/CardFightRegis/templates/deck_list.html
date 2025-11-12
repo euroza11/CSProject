@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>My Decks</h2>
+
+{% if decks %}
+    <ul class="list-group">
+        {% for deck in decks %}
+            <li class="list-group-item">
+                <strong>{{ deck.name }}</strong> (Created: {{ deck.created_at|date:"Y-m-d H:i" }}) 
+                <ul>
+                    {% for dc in deck.deckcard_set.all %}
+                        <li>{{ dc.card.name }} x{{ dc.quantity }}</li>
+                    {% endfor %}
+                </ul>
+                <a href="{% url 'edit_deck' deck.id %}" class="btn btn-sm btn-primary">Edit</a>
+                <a href="{% url 'delete_deck' deck.id %}" class="btn btn-sm btn-danger">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You have no decks yet.</p>
+{% endif %}
+
+<a href="{% url 'deckcreator' %}" class="btn btn-success mt-3">Create New Deck</a>
+{% endblock %}

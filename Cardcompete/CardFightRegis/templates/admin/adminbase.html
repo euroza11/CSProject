@@ -1,0 +1,19 @@
+{% extends "admin/base.html" %}
+{% load static %}
+
+{% block title %}สำหรับแอดมิน{% endblock %}
+
+{% block branding %}
+<h1 id="site-name">
+    <a href="{% url 'admin:index' %}">CardFight Administration</a>
+</h1>
+{% endblock %}
+
+{% block nav-global %}
+<!-- Optional: Add custom navbar links -->
+<a href="/">Go to Site</a>
+{% endblock %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="{% static 'css/admin_custom.css' %}">
+{% endblock %}

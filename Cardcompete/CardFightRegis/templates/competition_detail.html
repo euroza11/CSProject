@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{{ competition.name }}</h2>
+
+<p><strong>Description:</strong> {{ competition.description }}</p>
+<p><strong>Date:</strong> {{ competition.date|date:"Y-m-d H:i" }}</p>
+<p><strong>Location:</strong> {{ competition.location }}</p>
+<p><strong>Max Players:</strong> {{ competition.max_players }}</p>
+<p><strong>Current Registrations:</strong> {{ current_registrations }}</p>
+
+{% if user_registration %}
+    <p class="text-success">
+        You are already registered for this competition.<br>
+        Payment Status: <strong>{{ user_registration.payment_status }}</strong>
+        {% if user_registration.fee_slip %}
+            <br>Fee Slip Uploaded: <a href="{{ user_registration.fee_slip.url }}" target="_blank">View</a>
+        {% endif %}
+        {% if user_registration.deck %}
+            <br>Registered Deck: {{ user_registration.deck.name }}
+        {% endif %}
+    </p>
+{% else %}
+    {% if player_decks %}
+        <form method="post" enctype="multipart/form-data" action="{% url 'competition_detail' competition.id %}">
+            {% csrf_token %}
+            <div class="mb-3">
+                <label for="id_deck" class="form-label">Select Your Deck</label>
+                <select name="deck" id="id_deck" class="form-select" required>
+                    <option value="">-- Select Deck --</option>
+                    {% for deck in player_decks %}
+                        <option value="{{ deck.id }}">{{ deck.name }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="id_fee_slip" class="form-label">Upload Fee Slip</label>
+                <input type="file" name="fee_slip" id="id_fee_slip" class="form-control" required>
+            </div>
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+    {% else %}
+        <p class="text-warning">You need to create a deck first before registering.</p>
+        <a href="{% url 'deckcreator' %}" class="btn btn-success">Create Deck</a>
+    {% endif %}
+{% endif %}
+
+<a href="{% url 'competition_list' %}" class="btn btn-secondary mt-2">Back to List</a>
+{% endblock %}

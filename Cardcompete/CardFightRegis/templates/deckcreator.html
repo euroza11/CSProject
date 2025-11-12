@@ -1,0 +1,83 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>{% if is_edit %}Edit Deck{% else %}Create Deck{% endif %}</h2>
+
+<!-- 🔹 Filter Form -->
+<form method="get" class="mb-3">
+    <div class="row g-2 mb-3">
+        <div class="col">
+            <select name="nation" class="form-select">
+                <option value="">All Nations</option>
+                {% for n in filter_nations %}
+                    <option value="{{ n }}" {% if selected_nation == n %}selected{% endif %}>{{ n }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <select name="grade" class="form-select">
+                <option value="">All Grades</option>
+                {% for g in filter_grades %}
+                    <option value="{{ g }}" {% if selected_grade == g %}selected{% endif %}>Grade {{ g }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <select name="card_type" class="form-select">
+                <option value="">All Types</option>
+                {% for t in filter_types %}
+                    <option value="{{ t }}" {% if selected_type == t %}selected{% endif %}>{{ t }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a href="{% url 'deckcreator' %}" class="btn btn-secondary">Reset</a>
+        </div>
+    </div>
+</form>
+
+<!-- 🔹 Deck Creation Form -->
+<form method="POST">
+    {% csrf_token %}
+    {{ deck_form.as_p }}
+
+    <h3>Select Cards</h3>
+    <table class="table table-striped align-middle">
+        <thead>
+            <tr>
+                <th>Card</th>
+                <th style="width:100px;">Qty</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for card in cards %}
+            <tr>
+                <td>
+                    {% if card.image %}
+                        <img src="{{ card.image.url }}" height="150" class="me-3 rounded shadow-sm">
+                    {% endif %}
+                    {{ card.name }}
+                    <input type="hidden" name="card" value="{{ card.id }}">
+                </td>
+                <td>
+                    <input type="number" name="quantity" value="0" min="0" class="form-control quantity-input">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- 🔹 Buttons -->
+    <div class="d-flex gap-2 mt-3">
+        {% if is_edit %}
+            <button type="submit" class="btn btn-success">💾 Save Deck</button>
+        {% else %}
+            <button type="submit" class="btn btn-primary">🪄 Create Deck</button>
+        {% endif %}
+        <a href="{% url 'deck_list' %}" class="btn btn-outline-danger">⬅️ Back</a>
+    </div>
+</form>
+
+
+{% endblock %}

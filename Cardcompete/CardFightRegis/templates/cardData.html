@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}
+<title>Card Pool</title>
+{% endblock %}
+
+{% block content %}
+<h2>Card Pool</h2>
+
+<!-- Filters -->
+<form method="get" class="mb-3">
+    <div class="row g-2">
+        <div class="col">
+            <select name="nation" class="form-select">
+                <option value="">All Nations</option>
+                {% for n in filter_nations %}
+                    <option value="{{ n }}" {% if selected_nation == n %}selected{% endif %}>{{ n }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <select name="grade" class="form-select">
+                <option value="">All Grades</option>
+                {% for g in filter_grades %}
+                    <option value="{{ g }}" {% if selected_grade == g|stringformat:"s" %}selected{% endif %}>Grade {{ g }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col">
+            <select name="card_type" class="form-select">
+                <option value="">All Types</option>
+                {% for t in filter_types %}
+                    <option value="{{ t }}" {% if selected_type == t %}selected{% endif %}>{{ t }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="col-auto">
+            <button type="submit" class="btn btn-primary">Filter</button>
+            <a href="{% url 'cardpool' %}" class="btn btn-secondary">Reset</a>
+        </div>
+    </div>
+</form>
+
+<!-- Card List -->
+{% if cards %}
+    <ul class="list-group">
+        {% for card in cards %}
+            <li class="list-group-item d-flex align-items-center">
+                {% if card.image %}
+                    <img src="{{ card.image.url }}" style="height:250px; margin-right:20px;">
+                {% endif %}
+                <a href="{% url 'card_detail' card.pk %}">{{ card.name }}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No cards found.</p>
+{% endif %}
+{% endblock %}
